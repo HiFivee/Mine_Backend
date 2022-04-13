@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 인증 없이 접근 허용
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 // 이외 API 는 인증 필요
                 .anyRequest().authenticated()

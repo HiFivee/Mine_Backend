@@ -35,16 +35,14 @@ public class AccountService {
         Long id = (requestDto.getId() == null) ? (SecurityUtil.getCurrentAccountId()) : (requestDto.getId());
 
         // 계정 id 를 받아 DB 에서 검색 후 반환
-        Account account = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다. id: " + id));
 
-        return account;
+        return accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다."));
     }
 
     @Transactional
     public void updateAccount(AccountUpdateRequestDto requestDto) {
         // 현재 요청을 보낸 사용자의 id 를 찾아 계정 정보 가져오기
-        Long id = SecurityUtil.getCurrentAccountId();
-        Account account = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다. id: " + id));
+        Account account = accountRepository.findById(SecurityUtil.getCurrentAccountId()).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다."));
 
         // 계정 정보 업데이트
         account.update(requestDto.getNickname(), requestDto.getPhone(), requestDto.getAddress(),
@@ -54,8 +52,7 @@ public class AccountService {
     @Transactional
     public void deleteAccount() {
         // 현재 요청을 보낸 사용자의 id 를 찾아 계정 정보 가져오기
-        Long id = SecurityUtil.getCurrentAccountId();
-        Account account = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다. id: " + id));
+        Account account = accountRepository.findById(SecurityUtil.getCurrentAccountId()).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다."));
 
         // 계정 삭제
         accountRepository.delete(account);
