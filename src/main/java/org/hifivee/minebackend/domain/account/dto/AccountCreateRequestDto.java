@@ -3,11 +3,10 @@ package org.hifivee.minebackend.domain.account.dto;
 import lombok.Data;
 import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.account.repository.Authority;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-public class AccountRequestDto {
+public class AccountCreateRequestDto {
 
     private String email;
     private String password;
@@ -17,10 +16,14 @@ public class AccountRequestDto {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
+                .nickname(null)
+                .phone(null)
+                .address(null)
+                .position(null)
+                .link(null)
+                .message(null)
+                .techStack(null)
+                .experience(null)
                 .build();
-    }
-
-    public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(email, password);
     }
 }
