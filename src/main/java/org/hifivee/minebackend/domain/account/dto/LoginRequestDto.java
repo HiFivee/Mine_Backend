@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-public class AccountLoginRequestDto {
+public class LoginRequestDto {
 
     private String email;
     private String password;

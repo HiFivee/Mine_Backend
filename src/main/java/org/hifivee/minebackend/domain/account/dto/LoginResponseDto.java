@@ -4,17 +4,17 @@ import lombok.Data;
 import org.hifivee.minebackend.global.dto.DtoMetaData;
 
 @Data
-public class AccountLoginResponseDto {
+public class LoginResponseDto {
 
     private DtoMetaData dtoMetaData;
     private String token;
 
-    public AccountLoginResponseDto(DtoMetaData dtoMetaData, String token) {
+    public LoginResponseDto(DtoMetaData dtoMetaData, String token) {
         this.dtoMetaData = dtoMetaData;
         this.token = token;
     }
 
-    public AccountLoginResponseDto(DtoMetaData dtoMetaData) {
+    public LoginResponseDto(DtoMetaData dtoMetaData) {
         this.dtoMetaData = dtoMetaData;
         this.token = null;
     }

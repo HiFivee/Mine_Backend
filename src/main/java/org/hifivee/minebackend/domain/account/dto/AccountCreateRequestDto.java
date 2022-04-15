@@ -15,7 +15,7 @@ public class AccountCreateRequestDto {
         return Account.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .authority(Authority.ROLE_USER)
+                .authority(Authority.ROLE_UNVERIFIED)
                 .nickname(null)
                 .phone(null)
                 .address(null)
