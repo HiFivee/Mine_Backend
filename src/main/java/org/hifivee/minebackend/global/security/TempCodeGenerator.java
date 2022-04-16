@@ -3,7 +3,7 @@ package org.hifivee.minebackend.global.security;
 import java.security.SecureRandom;
 import java.util.Date;
 
-public class AuthCodeGenerator {
+public class TempCodeGenerator {
     // 임시 코드 생성기
     public static String generate(char[] charSet, int length) {
         StringBuilder authCodeBuffer = new StringBuilder();

@@ -3,12 +3,11 @@ package org.hifivee.minebackend.global.mail;
 import lombok.RequiredArgsConstructor;
 import org.hifivee.minebackend.global.security.AuthCodeService;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -20,6 +19,7 @@ public class MailService {
     private final AuthCodeService authCodeService;
 
     // 메일 발송
+    @Async
     public void sendAuthCodeMail(String to) throws Exception {
         MimeMessage message = createAuthCodeMessage(to);
 

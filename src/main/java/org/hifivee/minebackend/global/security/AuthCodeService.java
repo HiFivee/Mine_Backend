@@ -13,7 +13,7 @@ public class AuthCodeService {
     public String generateAuthCode(String source) {
         // 인증 코드 생성
         char[] authCodeCharSet = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        String authCode = AuthCodeGenerator.generate(authCodeCharSet, 6);
+        String authCode = TempCodeGenerator.generate(authCodeCharSet, 6);
 
         // verificationTokenList 에 이미 존재한다면 기존 인증 Token 제거
         verificationTokenList.removeIf((token) -> (token.getSource().equals(source)));
