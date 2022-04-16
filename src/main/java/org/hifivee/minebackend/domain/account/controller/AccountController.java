@@ -61,6 +61,21 @@ public class AccountController {
         }
     }
 
+    // 계정 비밀번호 업데이트: 사용자 자신의 계정의 비밀번호만 업데이트 가능
+    @PutMapping("/password")
+    public ResponseEntity<AccountPasswordUpdateResponseDto> updateAccount(@RequestBody AccountPasswordUpdateRequestDto requestDto) {
+        DtoMetaData dtoMetaData;
+
+        try {
+            accountService.updateAccountPassword(requestDto);
+            dtoMetaData = new DtoMetaData("계정 비밀번호 업데이트 성공");
+            return ResponseEntity.ok(new AccountPasswordUpdateResponseDto(dtoMetaData));
+        } catch (Exception e) {
+            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountPasswordUpdateResponseDto(dtoMetaData));
+        }
+    }
+
     // 계정 삭제: 사용자 자신의 계정만 삭제 가능
     @DeleteMapping
     public ResponseEntity<AccountDeleteResponseDto> deleteAccount() {

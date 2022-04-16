@@ -72,6 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/recover/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 // 이외 API 는 인증 필요
                 .anyRequest().authenticated()

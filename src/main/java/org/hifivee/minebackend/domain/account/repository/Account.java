@@ -3,6 +3,7 @@ package org.hifivee.minebackend.domain.account.repository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -75,5 +76,9 @@ public class Account {
         this.message = message;
         this.techStack = techStack;
         this.experience = experience;
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String password) {
+        this.password = passwordEncoder.encode(password);
     }
 }

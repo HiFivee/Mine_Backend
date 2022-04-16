@@ -43,14 +43,8 @@ public class AuthService {
         mailService.sendAuthCodeMail(requestDto.getEmail());
     }
 
-    public void verifyAuthCode(AuthCodeVerifyRequestDto requestDto) {
-        // 인증 코드가 유효하면
-        if(authCodeService.validateAuthCode(requestDto.getEmail(), requestDto.getAuthCode())) {
-            // NO ACTION
-        }
-        // 인증 코드가 유효하지 않으면
-        else {
-            throw new IllegalArgumentException("인증 코드가 유효하지 않습니다.");
-        }
+    public void verifyAuthCode(AuthCodeVerifyRequestDto requestDto) throws Exception {
+        // 인증 코드가 검증
+        authCodeService.validateAuthCode(requestDto.getEmail(), requestDto.getAuthCode());
     }
 }

@@ -7,5 +7,6 @@ import org.hifivee.minebackend.global.dto.DtoMetaData;
 @Data
 @AllArgsConstructor
 public class AuthCodeVerifyResponseDto {
+
     private DtoMetaData dtoMetaData;
 }

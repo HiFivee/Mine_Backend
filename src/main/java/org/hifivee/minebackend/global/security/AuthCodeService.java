@@ -30,7 +30,7 @@ public class AuthCodeService {
     }
 
     // 인증 코드 검증
-    public boolean validateAuthCode(String source, String authCode) {
+    public void validateAuthCode(String source, String authCode) throws Exception {
         Calendar currentTime = Calendar.getInstance();
         currentTime.setTime(new Date());
 
@@ -41,10 +41,12 @@ public class AuthCodeService {
                     token.getExpireTime().compareTo(currentTime) > 0
             ) {
                 verificationTokenList.remove(token);
-                return true;
+                return;
             }
         }
-        return false;
+
+        // 인증 코드가 맞지 않으면
+        throw new IllegalArgumentException("인증 코드가 유효하지 않습니다.");
     }
 
     // 인증코드 리스트 정리: 만료가 된 인증코드 제거
