@@ -1,9 +1,12 @@
 package org.hifivee.minebackend.domain.account.service;
 
 import lombok.RequiredArgsConstructor;
-import org.hifivee.minebackend.domain.account.dto.AccountLoginRequestDto;
-import org.hifivee.minebackend.domain.account.dto.AccountLoginResponseDto;
+import org.hifivee.minebackend.domain.account.dto.AuthCodeSendRequestDto;
+import org.hifivee.minebackend.domain.account.dto.AuthCodeVerifyRequestDto;
+import org.hifivee.minebackend.domain.account.dto.LoginRequestDto;
 import org.hifivee.minebackend.global.jwt.JwtTokenProvider;
+import org.hifivee.minebackend.global.mail.MailService;
+import org.hifivee.minebackend.global.security.AuthCodeService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -12,13 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class AccountAuthService {
+public class AuthService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider tokenProvider;
+    private final AuthCodeService authCodeService;
+    private final MailService mailService;
 
     @Transactional
-    public String login(AccountLoginRequestDto requestDto) {
+    public String login(LoginRequestDto requestDto) {
         // Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 
@@ -31,5 +36,15 @@ public class AccountAuthService {
 
         // 토큰 발급
         return token;
+    }
+
+    public void sendAuthCode(AuthCodeSendRequestDto requestDto) throws Exception {
+        // 인증 코드 메일 보내기
+        mailService.sendAuthCodeMail(requestDto.getEmail());
+    }
+
+    public void verifyAuthCode(AuthCodeVerifyRequestDto requestDto) throws Exception {
+        // 인증 코드가 검증
+        authCodeService.validateAuthCode(requestDto.getEmail(), requestDto.getAuthCode());
     }
 }

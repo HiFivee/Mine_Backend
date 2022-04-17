@@ -21,7 +21,7 @@ public class AccountService {
         // 이미 가입되어 있는지 email 을 기준으로 확인
         String email = requestDto.getEmail();
         if(accountRepository.existsByEmail(email)) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다. email: " + email);
+            throw new IllegalArgumentException("이미 가입되어 있는 유저입니다. email: " + email);
         }
 
         // 계정 생성: 기본 정보 DB 에 저장 (패스워드는 인코딩하여 저장)
@@ -35,7 +35,6 @@ public class AccountService {
         Long id = (requestDto.getId() == null) ? (SecurityUtil.getCurrentAccountId()) : (requestDto.getId());
 
         // 계정 id 를 받아 DB 에서 검색 후 반환
-
         return accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다."));
     }
 
@@ -47,6 +46,17 @@ public class AccountService {
         // 계정 정보 업데이트
         account.update(requestDto.getNickname(), requestDto.getPhone(), requestDto.getAddress(),
                 requestDto.getPosition(), requestDto.getLink(), requestDto.getMessage(), requestDto.getTechStack(), requestDto.getExperience());
+    }
+
+    @Transactional
+    public void updateAccountPassword(AccountPasswordUpdateRequestDto requestDto) {
+        // 현재 요청을 보낸 사용자의 id 를 찾아 계정 정보 가져오기
+        Account account = accountRepository.findById(SecurityUtil.getCurrentAccountId()).orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 유저가 없습니다."));
+
+        // 새로운 비밀번호가 기존 비밀번호와 다르면 업데이트
+        if(!passwordEncoder.encode(requestDto.getNewPassword()).equals(account.getPassword())) {
+            account.updatePassword(passwordEncoder, requestDto.getNewPassword());
+        }
     }
 
     @Transactional

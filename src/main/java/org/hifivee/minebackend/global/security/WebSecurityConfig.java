@@ -71,7 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 인증 없이 접근 허용
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/recover/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/account").permitAll()
                 // 이외 API 는 인증 필요
                 .anyRequest().authenticated()
@@ -79,17 +80,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // JwtCustomFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
-    }
-
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
     }
 }

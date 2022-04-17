@@ -6,7 +6,7 @@ import org.hifivee.minebackend.global.dto.DtoMetaData;
 
 @Data
 @AllArgsConstructor
-public class AccountUpdateResponseDto {
+public class AuthCodeVerifyResponseDto {
 
     private DtoMetaData dtoMetaData;
 }
