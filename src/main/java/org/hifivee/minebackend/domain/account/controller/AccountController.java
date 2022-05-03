@@ -27,7 +27,7 @@ public class AccountController {
             return ResponseEntity.ok(new AccountCreateResponseDto(dtoMetaData));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountCreateResponseDto(dtoMetaData));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountCreateResponseDto(dtoMetaData));
         }
     }
 
@@ -42,7 +42,7 @@ public class AccountController {
             return ResponseEntity.ok(new AccountFetchResponseDto(dtoMetaData, account));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountFetchResponseDto(dtoMetaData));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountFetchResponseDto(dtoMetaData));
         }
     }
 
@@ -57,7 +57,7 @@ public class AccountController {
             return ResponseEntity.ok(new AccountUpdateResponseDto(dtoMetaData));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountUpdateResponseDto(dtoMetaData));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountUpdateResponseDto(dtoMetaData));
         }
     }
 
@@ -72,7 +72,7 @@ public class AccountController {
             return ResponseEntity.ok(new AccountPasswordUpdateResponseDto(dtoMetaData));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountPasswordUpdateResponseDto(dtoMetaData));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountPasswordUpdateResponseDto(dtoMetaData));
         }
     }
 
@@ -87,7 +87,7 @@ public class AccountController {
             return ResponseEntity.ok(new AccountDeleteResponseDto(dtoMetaData));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AccountDeleteResponseDto(dtoMetaData));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountDeleteResponseDto(dtoMetaData));
         }
     }
 }

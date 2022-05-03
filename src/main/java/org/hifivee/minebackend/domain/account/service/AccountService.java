@@ -25,7 +25,7 @@ public class AccountService {
         }
 
         // 계정 생성: 기본 정보 DB 에 저장 (패스워드는 인코딩하여 저장)
-        accountRepository.save(requestDto.toAccount(passwordEncoder));
+        accountRepository.save(requestDto.toEntity(passwordEncoder));
     }
 
     @Transactional
