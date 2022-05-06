@@ -5,6 +5,7 @@ import org.hifivee.minebackend.domain.project.repository.Project;
 import org.hifivee.minebackend.global.dto.DtoMetaData;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
 public class ProjectMyFetchResponseDto {
@@ -20,4 +21,6 @@ public class ProjectMyFetchResponseDto {
         this.dtoMetaData = dtoMetaData;
         this.projects = null;
     }
+
+
 }

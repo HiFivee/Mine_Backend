@@ -19,7 +19,7 @@ public class Project {
     private String project_name;
 
     @Column
-    private String user_id;
+    private String userid;
 
     @Column
     private int headcount;
@@ -39,9 +39,9 @@ public class Project {
     }*/
 
     @Builder
-    public Project(String project_name, String user_id, int headcount, String field, String habitat){
+    public Project(String project_name, String userid, int headcount, String field, String habitat){
         this.project_name = project_name;
-        this.user_id = user_id;
+        this.userid = userid;
         this.headcount = headcount;
         this.field = field;
         this.habitat = habitat;

@@ -11,7 +11,7 @@ import javax.persistence.Column;
 public class ProjectFetchResponseDto {
     private DtoMetaData dtoMetaData;
     private String project_name;
-    private String user_id;
+    private String userid;
     private int headcount;
     private String field;
     private String habitat;
@@ -19,7 +19,7 @@ public class ProjectFetchResponseDto {
     public ProjectFetchResponseDto(DtoMetaData dtoMetaData, Project project){
         this.dtoMetaData = dtoMetaData;
         this.project_name = project.getProject_name();
-        this.user_id = project.getUser_id();
+        this.userid = project.getUserid();
         this.headcount = project.getHeadcount();
         this.field = project.getField();
         this.habitat = project.getHabitat();
@@ -28,7 +28,7 @@ public class ProjectFetchResponseDto {
     public ProjectFetchResponseDto(DtoMetaData dtoMetaData) {
         this.dtoMetaData = dtoMetaData;
         this.project_name = null;
-        this.user_id = null;
+        this.userid = null;
         this.headcount = 0;
         this.field = null;
         this.habitat = null;

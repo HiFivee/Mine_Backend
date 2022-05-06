@@ -8,16 +8,15 @@ import org.hifivee.minebackend.domain.project.repository.ProjectSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
-
+   // private final ProjectSpecification projectSpecification;
     // 프로젝트 생성
     @Transactional
     public void createProject(ProjectCreateRequestDto requestDto){
@@ -42,30 +41,19 @@ public class ProjectService {
     // 유저의 프로젝트 조회
     @Transactional
     public List<Project> fetchMyProject(ProjectMyFetchRequestDto requestDto) {
-        Optional<Project> projects = projectRepository.findByUser_id(requestDto.getUser_id());
+        List<Project> projects = projectRepository.findByUserid(requestDto.getUserid());
 
-        if(projects.isPresent()){ // 유저의 프로젝트가 존재하는 경우
-            List<Project> my_projects = (List<Project>) projects.get();
-            return my_projects;
-        }
-        else{ // 프로젝트가 없는 경우
+        if(projects.isEmpty()){
             return null;
+        }
+        else{
+            return projects;
         }
     }
 
     // 프로젝트 이름을 통한 검색 조회
     @Transactional
     public List<Project> fetchFilterProject(ProjectFilterFetchRequestDto requestDto) {
-        /*Optional<Project> project = projectRepository.findByProject_nameContaining(requestDto.getProject_name());
-
-        if(project.isPresent()){ // 검색했을 때 프로젝트가 존재하는 경우
-            List<Project> filter_projects = (List<Project>) project.get();
-            return filter_projects;
-        }
-        else{ // 프로젝트가 없는 경우
-            return null;
-        }*/
-
         Specification<Project> spec = (root, query, criteriaBuilder) -> null;
 
         if(requestDto.getProject_name() != null){
@@ -83,10 +71,10 @@ public class ProjectService {
 
         List<Project> project = projectRepository.findAll(spec);
 
-        if(project.isEmpty()){ // 검색된 프로젝트가 없는 경우
+        if(project.isEmpty()){
             return null;
         }
-        else{ // 검색된 프로젝트가 있는 경우
+        else{
             return project;
         }
     }

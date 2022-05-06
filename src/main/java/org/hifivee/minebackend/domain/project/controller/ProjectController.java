@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/project")
@@ -106,6 +107,7 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProjectFilterFetchResponseDto(dtoMetaData));
         }
     }
+
     // 프로젝트 업데이트
     @PutMapping
     public ResponseEntity<ProjectUpdateResponseDto> updateProject(@RequestBody ProjectUpdateRequestDto requestDto){

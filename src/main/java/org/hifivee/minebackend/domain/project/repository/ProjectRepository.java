@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
-    Optional<Project> findByUser_id(String user_id);
+    List<Project> findByUserid(String userid);
 }

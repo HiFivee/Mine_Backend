@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class ProjectCreateRequestDto {
 
     private String project_name;
-    private String user_id;
+    private String userid;
     private int headcount;
     private String field;
     private String habitat;
@@ -21,7 +21,7 @@ public class ProjectCreateRequestDto {
     public Project toProject(){
         return Project.builder()
                 .project_name(project_name)
-                .user_id(user_id)
+                .userid(userid)
                 .headcount(headcount)
                 .field(field)
                 .habitat(habitat)
