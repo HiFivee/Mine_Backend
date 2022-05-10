@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProjectFilterFetchRequestDto {
-    private String project_name;
+    private String projectName;
     private int headcount;
     private String field;
     private String habitat;

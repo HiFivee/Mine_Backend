@@ -1,32 +1,38 @@
 package org.hifivee.minebackend.domain.project.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hifivee.minebackend.domain.account.repository.Account;
+import org.hifivee.minebackend.domain.account.repository.AccountRepository;
 import org.hifivee.minebackend.domain.project.dto.*;
 import org.hifivee.minebackend.domain.project.repository.Project;
 import org.hifivee.minebackend.domain.project.repository.ProjectRepository;
 import org.hifivee.minebackend.domain.project.repository.ProjectSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
-   // private final ProjectSpecification projectSpecification;
+    private final AccountRepository accountRepository;
+
     // 프로젝트 생성
     @Transactional
     public void createProject(ProjectCreateRequestDto requestDto){
-        projectRepository.save(requestDto.toProject());
+        Account user = accountRepository.findById(requestDto.getUserId()).orElseThrow(() ->
+                new IllegalArgumentException("유저 정보가 없습니다"));
+
+        projectRepository.save(requestDto.toProject(user));
+
     }
 
     // 프로젝트 조회
     @Transactional
     public Project fetchProject(ProjectFetchRequestDto requestDto) {
-        Project project = projectRepository.findById(requestDto.getProject_id()).orElseThrow(() ->
+        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() ->
                 new IllegalArgumentException("해당 프로젝트가 없습니다."));
         return project;
     }
@@ -41,7 +47,9 @@ public class ProjectService {
     // 유저의 프로젝트 조회
     @Transactional
     public List<Project> fetchMyProject(ProjectMyFetchRequestDto requestDto) {
-        List<Project> projects = projectRepository.findByUserid(requestDto.getUserid());
+        Account user = accountRepository.findById(requestDto.getUserId()).orElseThrow(() ->
+                new IllegalArgumentException("유저 정보가 없습니다"));
+        List<Project> projects = projectRepository.findByUserId(user);
 
         if(projects.isEmpty()){
             return null;
@@ -56,8 +64,8 @@ public class ProjectService {
     public List<Project> fetchFilterProject(ProjectFilterFetchRequestDto requestDto) {
         Specification<Project> spec = (root, query, criteriaBuilder) -> null;
 
-        if(requestDto.getProject_name() != null){
-            spec = spec.and(ProjectSpecification.containingProject_name(requestDto.getProject_name()));
+        if(requestDto.getProjectName() != null){
+            spec = spec.and(ProjectSpecification.containingProject_name(requestDto.getProjectName()));
         }
         if(requestDto.getHeadcount() != 0){
             spec = spec.and(ProjectSpecification.lessThanHeadcount(requestDto.getHeadcount()));
@@ -82,16 +90,16 @@ public class ProjectService {
     // 프로젝트 업데이트
     @Transactional
     public void updateProject(ProjectUpdateRequestDto requestDto) {
-        Project project = projectRepository.findById(requestDto.getProject_id()).orElseThrow(() ->
+        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() ->
                 new IllegalArgumentException("해당 프로젝트가 없습니다."));
 
-        project.update(requestDto.getProject_name(), requestDto.getHeadcount(), requestDto.getField(), requestDto.getHabitat());
+        project.update(requestDto.getProjectName(), requestDto.getHeadcount(), requestDto.getField(), requestDto.getHabitat());
     }
 
     // 프로젝트 삭제
     @Transactional
     public void deleteProejct(ProjectDeleteRequestDto requestDto){
-        Project project = projectRepository.findById(requestDto.getProject_id()).orElseThrow(() ->
+        Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() ->
                 new IllegalArgumentException("삭제할 프로젝트가 없습니다."));
 
         projectRepository.delete(project);

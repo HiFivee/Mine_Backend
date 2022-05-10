@@ -3,6 +3,9 @@ package org.hifivee.minebackend.domain.project.repository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hifivee.minebackend.domain.account.repository.Account;
 
 import javax.persistence.*;
 
@@ -13,13 +16,15 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long project_id;
+    private Long projectId;
 
     @Column
-    private String project_name;
+    private String projectName;
 
-    @Column
-    private String userid;
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "userId")
+    private Account account;
 
     @Column
     private int headcount;
@@ -30,25 +35,17 @@ public class Project {
     @Column
     private String habitat;
 
-    /*public Project(String project_name, String user_id, int headcount, String field, String habitat) {
-        this.project_name = project_name;
-        this.user_id = user_id;
-        this.headcount = headcount;
-        this.field = field;
-        this.habitat = habitat;
-    }*/
-
     @Builder
-    public Project(String project_name, String userid, int headcount, String field, String habitat){
-        this.project_name = project_name;
-        this.userid = userid;
+    public Project(String projectName, Account account, int headcount, String field, String habitat){
+        this.projectName = projectName;
+        this.account = account;
         this.headcount = headcount;
         this.field = field;
         this.habitat = habitat;
     }
 
-    public void update(String project_name, int headcount, String field, String habitat){
-        this.project_name = project_name;
+    public void update(String projectName, int headcount, String field, String habitat){
+        this.projectName = projectName;
         this.headcount = headcount;
         this.field = field;
         this.habitat = habitat;

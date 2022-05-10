@@ -1,6 +1,7 @@
 package org.hifivee.minebackend.domain.project.dto;
 
 import lombok.Data;
+import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.project.repository.Project;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -12,16 +13,16 @@ import javax.persistence.Id;
 @Data
 public class ProjectCreateRequestDto {
 
-    private String project_name;
-    private String userid;
+    private String projectName;
+    private Long userId;
     private int headcount;
     private String field;
     private String habitat;
 
-    public Project toProject(){
+    public Project toProject(Account account){
         return Project.builder()
-                .project_name(project_name)
-                .userid(userid)
+                .projectName(projectName)
+                .account(account)
                 .headcount(headcount)
                 .field(field)
                 .habitat(habitat)

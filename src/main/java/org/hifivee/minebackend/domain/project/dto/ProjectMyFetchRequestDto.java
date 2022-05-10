@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ProjectMyFetchRequestDto {
-    private String userid;
+    private Long userId;
 }
