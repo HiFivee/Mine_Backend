@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,10 +32,12 @@ public class ProjectService {
 
     // 프로젝트 조회
     @Transactional
-    public Project fetchProject(ProjectFetchRequestDto requestDto) {
+    public List<Project> fetchProject(ProjectFetchRequestDto requestDto) {
         Project project = projectRepository.findById(requestDto.getProjectId()).orElseThrow(() ->
                 new IllegalArgumentException("해당 프로젝트가 없습니다."));
-        return project;
+        List<Project> projects = new ArrayList<>();
+        projects.add(project);
+        return projects;
     }
 
     // 프로젝트 전체 조회
@@ -46,10 +49,10 @@ public class ProjectService {
 
     // 유저의 프로젝트 조회
     @Transactional
-    public List<Project> fetchMyProject(ProjectMyFetchRequestDto requestDto) {
+    public List<Project> fetchMyProject(ProjectFetchRequestDto requestDto) {
         Account user = accountRepository.findById(requestDto.getUserId()).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
-        List<Project> projects = projectRepository.findByUserId(user);
+        List<Project> projects = projectRepository.findByAccount(user);
 
         if(projects.isEmpty()){
             return null;
@@ -61,7 +64,7 @@ public class ProjectService {
 
     // 프로젝트 이름을 통한 검색 조회
     @Transactional
-    public List<Project> fetchFilterProject(ProjectFilterFetchRequestDto requestDto) {
+    public List<Project> fetchFilterProject(ProjectFetchRequestDto requestDto) {
         Specification<Project> spec = (root, query, criteriaBuilder) -> null;
 
         if(requestDto.getProjectName() != null){

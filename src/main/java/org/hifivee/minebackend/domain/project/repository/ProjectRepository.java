@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
-    List<Project> findByUserId(Account account);
+    List<Project> findByAccount(Account account);
 }

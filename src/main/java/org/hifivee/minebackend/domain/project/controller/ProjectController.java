@@ -39,73 +39,29 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<ProjectFetchResponseDto> fetchProject(@RequestBody ProjectFetchRequestDto requestDto){
         DtoMetaData dtoMetaData;
-
+        List<Project> projects;
         try{
-            Project project = projectService.fetchProject(requestDto);
-            dtoMetaData = new DtoMetaData("프로젝트 조회 완료");
-            return ResponseEntity.ok(new ProjectFetchResponseDto(dtoMetaData, project));
+            if(requestDto.getProjectId() != null){
+                projects = projectService.fetchProject(requestDto);
+                dtoMetaData = new DtoMetaData("특정 프로젝트 조회 완료");
+            }
+            else if(requestDto.getUserId() != null){
+                projects = projectService.fetchMyProject(requestDto);
+                dtoMetaData = new DtoMetaData("내 프로젝트 조회 완료");
+            }
+            else if(requestDto.getProjectName() != null){
+                projects = projectService.fetchFilterProject(requestDto);
+                dtoMetaData = new DtoMetaData("검색한 프로젝트 조회 완료");
+            }
+            else {
+                projects = projectService.fetchAllProject();
+                dtoMetaData = new DtoMetaData("전체 프로젝트 조회 완료");
+            }
+            return ResponseEntity.ok(new ProjectFetchResponseDto(dtoMetaData, projects));
         }
         catch (Exception e){
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProjectFetchResponseDto(dtoMetaData));
-        }
-    }
-
-    // 프로젝트 조회(전체)
-    @GetMapping("/all")
-    public ResponseEntity<ProjectAllFetchResponseDto> fetchAllProject(){
-        DtoMetaData dtoMetaData;
-
-        try{
-            List<Project> projects = projectService.fetchAllProject();
-            dtoMetaData = new DtoMetaData("프로젝트 전체 조회 완료");
-            return ResponseEntity.ok(new ProjectAllFetchResponseDto(dtoMetaData, projects));
-        }
-        catch (Exception e){
-            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProjectAllFetchResponseDto(dtoMetaData));
-        }
-    }
-
-    // 프로젝트 조회(유저)
-    @GetMapping("/myproject")
-    public ResponseEntity<ProjectMyFetchResponseDto> fetchMyProject(@RequestBody ProjectMyFetchRequestDto requestDto){
-        DtoMetaData dtoMetaData;
-
-        try{
-            List<Project> projects = projectService.fetchMyProject(requestDto);
-            if(projects == null){
-                dtoMetaData = new DtoMetaData("나의 프로젝트가 없습니다.");
-            }
-            else {
-                dtoMetaData = new DtoMetaData("내 프로젝트 조회 완료");
-            }
-            return ResponseEntity.ok(new ProjectMyFetchResponseDto(dtoMetaData, projects));
-        }
-        catch (Exception e){
-            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProjectMyFetchResponseDto(dtoMetaData));
-        }
-    }
-
-    // 프로젝트 조회(이름 검색)
-    @GetMapping("/filterproject")
-    public ResponseEntity<ProjectFilterFetchResponseDto> fetchFilterProject(@RequestBody ProjectFilterFetchRequestDto requestDto){
-        DtoMetaData dtoMetaData;
-
-        try{
-            List<Project> projects = projectService.fetchFilterProject(requestDto);
-            if(projects == null){
-                dtoMetaData = new DtoMetaData("조건에 맞는 프로젝트가 없습니다.");
-            }
-            else {
-                dtoMetaData = new DtoMetaData("프로젝트 검색 완료");
-            }
-            return ResponseEntity.ok(new ProjectFilterFetchResponseDto(dtoMetaData, projects));
-        }
-        catch (Exception e){
-            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProjectFilterFetchResponseDto(dtoMetaData));
         }
     }
 

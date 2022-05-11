@@ -7,31 +7,19 @@ import org.hifivee.minebackend.domain.project.repository.Project;
 import org.hifivee.minebackend.global.dto.DtoMetaData;
 
 import javax.persistence.Column;
+import java.util.List;
 
 @Data
 public class ProjectFetchResponseDto {
     private DtoMetaData dtoMetaData;
-    private String getProjectName;
-    private Account account;
-    private int headcount;
-    private String field;
-    private String habitat;
+    private List<Project> projects;
 
-    public ProjectFetchResponseDto(DtoMetaData dtoMetaData, Project project){
+    public ProjectFetchResponseDto(DtoMetaData dtoMetaData, List<Project> project){
         this.dtoMetaData = dtoMetaData;
-        this.getProjectName = project.getProjectName();
-        this.account = project.getAccount();
-        this.headcount = project.getHeadcount();
-        this.field = project.getField();
-        this.habitat = project.getHabitat();
+        this.projects = project;
     }
 
     public ProjectFetchResponseDto(DtoMetaData dtoMetaData) {
         this.dtoMetaData = dtoMetaData;
-        this.getProjectName = null;
-        this.account = null;
-        this.headcount = 0;
-        this.field = null;
-        this.habitat = null;
     }
 }

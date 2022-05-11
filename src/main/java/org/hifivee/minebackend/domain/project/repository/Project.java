@@ -8,11 +8,12 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hifivee.minebackend.domain.account.repository.Account;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Project {
+public class Project implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +22,9 @@ public class Project {
     @Column
     private String projectName;
 
-    @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.EAGER    )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "accountId", referencedColumnName = "id")
     private Account account;
 
     @Column

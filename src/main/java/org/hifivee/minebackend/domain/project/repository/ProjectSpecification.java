@@ -4,8 +4,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class ProjectSpecification {
     // 프로젝트 이름에 검색어가 포함되어있는지 확인
-    public static Specification<Project> containingProject_name(String project_name){
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("project_name"), "%"+project_name+"%");
+    public static Specification<Project> containingProject_name(String projectName){
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("projectName"), "%"+projectName+"%");
     }
     // 프로젝트 인원 수가 검색한 인원 수보다 작거나 같은지 확인
     public static Specification<Project> lessThanHeadcount(Integer headcount){
