@@ -22,7 +22,7 @@ public class Project implements Serializable {
     @Column
     private String projectName;
 
-    @ManyToOne(targetEntity = Account.class, fetch = FetchType.EAGER    )
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "accountId", referencedColumnName = "id")
     private Account account;
