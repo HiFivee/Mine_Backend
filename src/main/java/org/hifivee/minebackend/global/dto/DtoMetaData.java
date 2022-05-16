@@ -1,6 +1,5 @@
 package org.hifivee.minebackend.global.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

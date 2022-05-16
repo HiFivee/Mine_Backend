@@ -11,7 +11,7 @@ public class AccountCreateRequestDto {
     private String email;
     private String password;
 
-    public Account toAccount(PasswordEncoder passwordEncoder) {
+    public Account toEntity(PasswordEncoder passwordEncoder) {
         return Account.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
