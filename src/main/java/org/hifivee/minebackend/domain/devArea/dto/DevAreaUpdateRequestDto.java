@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 public class DevAreaUpdateRequestDto {
     private Long id;
-    private String userName;
-    private String userTechStack;
+    private String techStack;
 }

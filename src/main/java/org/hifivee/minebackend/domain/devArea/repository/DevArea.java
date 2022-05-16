@@ -3,6 +3,9 @@ package org.hifivee.minebackend.domain.devArea.repository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hifivee.minebackend.domain.account.repository.Account;
 
 import javax.persistence.*;
 
@@ -12,26 +15,26 @@ import javax.persistence.*;
 public class DevArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
+
+    @OneToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountId", referencedColumnName = "Id")
+    private Account account;
 
     @Column
-    private Long userId;
+    private Long projectId;
 
     @Column
-    private String userName;
-
-    @Column
-    private String userTechStack;
+    private String techStack;
 
     @Builder
-    public DevArea(String userName,String userTechStack, Long userId){
-        this.userName = userName;
-        this.userTechStack = userTechStack;
-        this.userId = userId;
+    public DevArea(Account account, String techStack, Long projectId){
+        this.account = account;
+        this.techStack = techStack;
+        this.projectId = projectId;
     }
 
-    public void DevAreaUpdate(String userName, String userDevArea){
-        this.userName = userName;
-        this.userTechStack = userDevArea;
+    public void DevAreaUpdate(String userDevArea){
+        this.techStack = userDevArea;
     }
 }

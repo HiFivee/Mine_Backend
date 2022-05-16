@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface DevAreaRepository extends JpaRepository<DevArea, Long> {
-    Optional<DevArea> findByUserName(String name);
-    Optional<DevArea> findByUserTechStack(Long id);
+    /*Boolean existByProjectId(Long projectId);
+    Optional<DevArea> findByTechStack(Long id);*/
 
 
 }

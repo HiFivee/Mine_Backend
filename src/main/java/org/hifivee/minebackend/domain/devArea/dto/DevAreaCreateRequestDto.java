@@ -4,22 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.devArea.repository.DevArea;
 
 @Data
 @NoArgsConstructor
 public class DevAreaCreateRequestDto {
+    private String techStack;
+    private Long projectId;
     private Long userId;
-    private String userName;
-    private String userTechStack;
 
 
     //dto -> entity
-    public DevArea toEntity(){
+    public DevArea toEntity(Account account){
         return DevArea.builder()
-                .userId(userId)
-                .userName(userName)
-                .userTechStack(userTechStack)
+                .techStack(techStack)
+                .projectId(projectId)
+                .account(account)
                 .build();
     }
 }

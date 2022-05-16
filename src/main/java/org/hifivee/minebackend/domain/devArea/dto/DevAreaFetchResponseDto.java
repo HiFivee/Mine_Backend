@@ -11,18 +11,15 @@ import org.hifivee.minebackend.global.dto.DtoMetaData;
 @Data
 public class DevAreaFetchResponseDto {
     private DtoMetaData dtoMetaData;
-    private String userName;
-    private String userTechStack;
+    private String techStack;
 
     public DevAreaFetchResponseDto(DtoMetaData dtoMetaData, DevArea devArea) {
         this.dtoMetaData = dtoMetaData;
-        this.userName = devArea.getUserName();
-        this.userTechStack = devArea.getUserTechStack();
+        this.techStack = devArea.getTechStack();
     }
 
     public DevAreaFetchResponseDto(DtoMetaData dtoMetaData) {
         this.dtoMetaData = dtoMetaData;
-        this.userTechStack = null;
-        this.userName = null;
+        this.techStack = null;
     }
 }

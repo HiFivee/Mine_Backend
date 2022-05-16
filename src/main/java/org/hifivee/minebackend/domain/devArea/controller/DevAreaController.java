@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class DevAreaController {
     private final DevAreaService devAreaService;
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<DevAreaCreateResponseDto> createDevArea(@RequestBody DevAreaCreateRequestDto requestDto) {
         DtoMetaData dtoMetaData;
 
         try {
             devAreaService.createDevArea(requestDto);
-            dtoMetaData = new DtoMetaData("계정 생성 성공");
+            dtoMetaData = new DtoMetaData("개발 분야 작성 성공");
             return ResponseEntity.ok(new DevAreaCreateResponseDto(dtoMetaData));
         } catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
@@ -35,7 +35,7 @@ public class DevAreaController {
         DtoMetaData dtoMetaData;
         try{
             DevArea devArea = devAreaService.fetchDevArea(requestDto);
-            dtoMetaData = new DtoMetaData("계정 정보 가져오기 성공");
+            dtoMetaData = new DtoMetaData("개발분야 정보 가져오기 성공");
             return ResponseEntity.ok(new DevAreaFetchResponseDto(dtoMetaData, devArea));
         }catch (Exception e) {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
@@ -71,7 +71,7 @@ public class DevAreaController {
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DevAreaDeleteResponseDto(dtoMetaData));
         }
-    }
+    }*/
 
 
 
