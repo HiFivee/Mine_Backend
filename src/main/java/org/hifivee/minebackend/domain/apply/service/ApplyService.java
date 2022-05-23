@@ -3,15 +3,13 @@ package org.hifivee.minebackend.domain.apply.service;
 import lombok.RequiredArgsConstructor;
 import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.account.repository.AccountRepository;
-import org.hifivee.minebackend.domain.apply.dto.ApplyCreateRequestDto;
-import org.hifivee.minebackend.domain.apply.dto.ApplyFetchRequestDto;
+import org.hifivee.minebackend.domain.apply.dto.*;
 import org.hifivee.minebackend.domain.apply.repository.Apply;
 import org.hifivee.minebackend.domain.apply.repository.ApplyRepository;
 import org.hifivee.minebackend.domain.recruit.repository.Recruit;
 import org.hifivee.minebackend.domain.recruit.repository.RecruitRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +69,21 @@ public class ApplyService {
         else{
             return applies;
         }
+    }
+
+    @Transactional
+    public void deleteApply(ApplyDeleteRequestDto requestDto) {
+        Apply apply = applyRepository.findById(requestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 지원서가 없습니다"));
+
+        applyRepository.delete(apply);
+    }
+
+    @Transactional
+    public void updateApply(ApplyUpdateRequestDto requestDto) {
+        Apply apply = applyRepository.findById(requestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 지원서가 없습니다"));
+
+        apply.update(requestDto.getApplyMessage());
     }
 }

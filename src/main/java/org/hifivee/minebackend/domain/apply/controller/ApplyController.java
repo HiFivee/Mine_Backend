@@ -1,11 +1,8 @@
 package org.hifivee.minebackend.domain.apply.controller;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.hifivee.minebackend.domain.apply.dto.ApplyCreateRequestDto;
-import org.hifivee.minebackend.domain.apply.dto.ApplyCreateResponseDto;
-import org.hifivee.minebackend.domain.apply.dto.ApplyFetchRequestDto;
-import org.hifivee.minebackend.domain.apply.dto.ApplyFetchResponseDto;
+import org.hifivee.minebackend.domain.apply.dto.*;
 import org.hifivee.minebackend.domain.apply.repository.Apply;
 import org.hifivee.minebackend.domain.apply.service.ApplyService;
 import org.hifivee.minebackend.global.dto.DtoMetaData;
@@ -55,6 +52,34 @@ public class ApplyController {
         } catch (Exception e){
             dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApplyFetchResponseDto(dtoMetaData));
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApplyDeleteResponseDto> deleteApply(@RequestBody ApplyDeleteRequestDto requestDto){
+        DtoMetaData dtoMetaData;
+        try{
+            applyService.deleteApply(requestDto);
+            dtoMetaData = new DtoMetaData("지원서 삭제 성공");
+            return ResponseEntity.ok(new ApplyDeleteResponseDto((dtoMetaData)));
+        }
+        catch (Exception e){
+            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApplyDeleteResponseDto(dtoMetaData));
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<ApplyUpdateResponseDto> updateApply(@RequestBody ApplyUpdateRequestDto requestDto){
+        DtoMetaData dtoMetaData;
+        try{
+            applyService.updateApply(requestDto);
+            dtoMetaData = new DtoMetaData("지원서 수정 성공");
+            return ResponseEntity.ok(new ApplyUpdateResponseDto(dtoMetaData));
+        }
+        catch (Exception e){
+            dtoMetaData = new DtoMetaData(e.getMessage(), e.getClass().getName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApplyUpdateResponseDto(dtoMetaData));
         }
     }
 }

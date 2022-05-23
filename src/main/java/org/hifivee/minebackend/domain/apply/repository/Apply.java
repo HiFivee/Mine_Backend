@@ -1,38 +1,37 @@
 package org.hifivee.minebackend.domain.apply.repository;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.implementation.bind.annotation.BindingPriority;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.recruit.repository.Recruit;
+import org.hifivee.minebackend.global.entity.BaseEntity;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Apply {
+public class Apply extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long applyId;
+    private Long applyId;
 
-    @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    Account account;
+    private Account account;
 
     @Column
-    String applyMessage;
+    private String applyMessage;
 
-    @ManyToOne(targetEntity = Recruit.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Recruit.class, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recruitId", referencedColumnName = "id")
-    Recruit recruit;
+    private Recruit recruit;
 
     @Builder
     public Apply(Long applyId, Account account, String applyMessage, Recruit recruit){
@@ -40,5 +39,9 @@ public class Apply {
         this.account = account;
         this.applyMessage = applyMessage;
         this.recruit = recruit;
+    }
+
+    public void update(String applyMessage){
+        this.applyMessage = applyMessage;
     }
 }
