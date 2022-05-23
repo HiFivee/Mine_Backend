@@ -25,7 +25,6 @@ public class JwtCustomFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Request Header 에서 토큰 꺼냄
         String token = resolveToken(request);
-
         // 토큰 유효성 검사
         // 유요한 토큰이면 Authentication 을 가져와서 SecurityContext 에 저장
         if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
