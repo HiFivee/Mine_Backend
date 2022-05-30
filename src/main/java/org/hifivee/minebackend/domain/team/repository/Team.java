@@ -3,11 +3,9 @@ package org.hifivee.minebackend.domain.team.repository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.global.entity.BaseEntity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -34,7 +32,7 @@ public class Team extends BaseEntity {
     private Long userId;
 
     @Builder
-    public Team(String teamName, int teamNumber, Long projectId, String projectName, Long userId){
+    public Team(String teamName, int teamNumber, Long projectId, String projectName, Long userId) {
         this.teamName = teamName;
         this.userId = userId;
         this.teamNumber = teamNumber;
@@ -42,7 +40,7 @@ public class Team extends BaseEntity {
         this.projectName = projectName;
     }
 
-    public void update(String teamName, int teamNumber){
+    public void update(String teamName, int teamNumber) {
         this.teamName = teamName;
         this.teamNumber = teamNumber;
     }
