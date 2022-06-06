@@ -23,10 +23,9 @@ public class TeamTest {
     void save(){
         Team teams = Team.builder()
                 .teamNumber(12)
-                .project(new Project())
+                .projectId(new Project())
                 .projectName("mineProject")
                 .teamName("mine")
-                .userId(111L)
                 .build();
 
 

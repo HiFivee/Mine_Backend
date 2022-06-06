@@ -3,8 +3,6 @@ package org.hifivee.minebackend.domain.team.service;
 import lombok.RequiredArgsConstructor;
 import org.hifivee.minebackend.domain.account.repository.Account;
 import org.hifivee.minebackend.domain.account.repository.AccountRepository;
-import org.hifivee.minebackend.domain.recruit.dto.*;
-import org.hifivee.minebackend.domain.recruit.repository.Recruit;
 import org.hifivee.minebackend.domain.team.dto.*;
 import org.hifivee.minebackend.domain.team.repository.Team;
 import org.hifivee.minebackend.domain.team.repository.TeamRepository;
@@ -26,9 +24,18 @@ public class TeamService {
 
     @Transactional
     public void createTeam(TeamCreateRequestDto requestDto) {
-        Account user = accountRepository.findById(requestDto.getUserId()).orElseThrow(() ->
-                new IllegalArgumentException("유저 정보가 없습니다"));
-        teamRepository.save(requestDto.toTeam(user));
+        String teams = requestDto.getTeamName();
+        if (teamRepository.existsByTeamName(teams)) {
+            throw new IllegalArgumentException("이미 생성된 팀명 입니다. team: " + teams);
+        }else{
+            Team team = requestDto.toTeam();
+            List<Account> members = requestDto.getTeamMember();
+            for(Account account : members){
+                team.putMember(account);
+            }
+            teamRepository.save(team);
+        }
+
 
     }
 
@@ -59,7 +66,7 @@ public class TeamService {
         Pageable pageable = PageRequest.of(pageIndex, TEAM_PER_PAGE, Sort.Direction.DESC, "id");
 
         Long topId = requestDto.getTopId();
-        if(topId == null) {
+        if (topId == null) {
             teamPage = teamRepository.findAll(pageable);
         } else {
             teamPage = teamRepository.findAllByTopTeamId(topId, pageable);
@@ -75,7 +82,7 @@ public class TeamService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 팀이 존재하지 않습니다. id: " + teamId));
 
         // 구인글 업데이트 하기
-       team.update(requestDto.getTeamName(), requestDto.getTeamNumber());
+        team.update(requestDto.getTeamName(), requestDto.getTeamNumber());
 
         teamRepository.save(team);
     }

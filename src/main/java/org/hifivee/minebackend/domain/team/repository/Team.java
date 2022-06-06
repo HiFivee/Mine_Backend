@@ -35,20 +35,22 @@ public class Team extends BaseEntity{
     private String projectName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
-    private List<Account> members = new ArrayList<>();
+    private final List<Account> members = new ArrayList<>();
 
-    private Long userId;
     @Builder
-    public Team(Long userId, String teamName, int teamNumber, Project project, String projectName) {
+    public Team(String teamName, int teamNumber, Project projectId, String projectName) {
         this.teamName = teamName;
-        this.userId = userId;
         this.teamNumber = teamNumber;
-        this.project = project;
+        this.project = projectId;
         this.projectName = projectName;
     }
 
     public void update(String teamName, int teamNumber) {
         this.teamName = teamName;
         this.teamNumber = teamNumber;
+    }
+
+    public void putMember(Account account){
+        this.members.add(account);
     }
 }

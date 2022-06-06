@@ -12,16 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 public class TeamCreateRequestDto {
     private String teamName;
-    private Long userId;
     private Project projectId;
     private String projectName;
     private int teamNumber;
+    private List<Account> teamMember;
 
-    public Team toTeam(Account account){
+    public Team toTeam(){
         return Team.builder()
                 .teamName(teamName)
-                .project(projectId)
-                .userId(userId)
+                .projectId(projectId)
                 .projectName(projectName)
                 .teamNumber(teamNumber)
                 .build();

@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Page<Team> findAll(Pageable pageable);
+    boolean existsByTeamName(String teamName);
 
     @Query(
             value = "SELECT * FROM team AS r WHERE r.id <= :topId",
