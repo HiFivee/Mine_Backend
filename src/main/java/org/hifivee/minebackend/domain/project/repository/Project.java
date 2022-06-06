@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hifivee.minebackend.domain.account.repository.Account;
+import org.hifivee.minebackend.domain.team.repository.Team;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class Project implements Serializable {
 
     @ManyToOne(targetEntity = Account.class, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "accountId", referencedColumnName = "id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
     @Column
@@ -36,13 +37,18 @@ public class Project implements Serializable {
     @Column
     private String habitat;
 
+    @OneToOne(mappedBy = "project")
+    private Team team;
+
+
     @Builder
-    public Project(String projectName, Account account, int headcount, String field, String habitat){
+    public Project(String projectName, Account account, int headcount, String field, String habitat, Team team){
         this.projectName = projectName;
         this.account = account;
         this.headcount = headcount;
         this.field = field;
         this.habitat = habitat;
+        this.team = team;
     }
 
     public void update(String projectName, int headcount, String field, String habitat){

@@ -3,6 +3,9 @@ package org.hifivee.minebackend.domain.account.repository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hifivee.minebackend.domain.team.repository.Team;
 import org.hifivee.minebackend.global.entity.BaseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -50,10 +53,15 @@ public class Account extends BaseEntity {
     @Column
     private String experience;
 
+    @ManyToOne(targetEntity = Team.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
     @Builder
     public Account(String email, String password, Authority authority,
                    String nickname, String phone, String address,
-                   String position, String link, String message, String techStack, String experience) {
+                   String position, String link, String message, String techStack, String experience, Team team) {
         this.email = email;
         this.password = password;
         this.authority = authority;
@@ -65,6 +73,7 @@ public class Account extends BaseEntity {
         this.message = message;
         this.techStack = techStack;
         this.experience = experience;
+        this.team = team;
     }
 
     public void update(String nickname, String phone, String address,
