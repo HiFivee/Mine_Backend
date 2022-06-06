@@ -28,7 +28,6 @@ public class TeamService {
     public void createTeam(TeamCreateRequestDto requestDto) {
         Account user = accountRepository.findById(requestDto.getUserId()).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
-
         teamRepository.save(requestDto.toTeam(user));
 
     }
