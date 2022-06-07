@@ -1,6 +1,7 @@
 package org.hifivee.minebackend.domain.recruit.dto;
 
 import lombok.Data;
+import org.hifivee.minebackend.domain.project.repository.Project;
 import org.hifivee.minebackend.domain.recruit.repository.Recruit;
 
 @Data
@@ -12,9 +13,9 @@ public class RecruitCreateRequestDto {
     private Integer openings;
     private String applicants;
 
-    public Recruit toEntity() {
+    public Recruit toEntity(Project project) {
         return Recruit.builder()
-                .projectId(projectId)
+                .project(project)
                 .description(description)
                 .attachments(attachments)
                 .openings(openings)

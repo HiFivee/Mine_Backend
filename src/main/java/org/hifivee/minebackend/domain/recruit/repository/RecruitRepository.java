@@ -1,5 +1,6 @@
 package org.hifivee.minebackend.domain.recruit.repository;
 
+import org.hifivee.minebackend.domain.project.repository.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface RecruitRepository extends JpaRepository<Recruit, Long> {
 
-    Boolean existsByProjectId(Long projectId);
+    Boolean existsByProject(Project project);
     Optional<Recruit> findById(Long id);
     Page<Recruit> findAll(Pageable pageable);
 
