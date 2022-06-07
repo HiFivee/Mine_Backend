@@ -1,6 +1,8 @@
 package org.hifivee.minebackend.domain.recruit.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hifivee.minebackend.domain.project.repository.Project;
+import org.hifivee.minebackend.domain.project.repository.ProjectRepository;
 import org.hifivee.minebackend.domain.recruit.dto.*;
 import org.hifivee.minebackend.domain.recruit.repository.Recruit;
 import org.hifivee.minebackend.domain.recruit.repository.RecruitRepository;
@@ -19,16 +21,18 @@ import java.util.List;
 public class RecruitService {
 
     private final RecruitRepository recruitRepository;
-
+    private final ProjectRepository projectRepository;
     @Transactional
     public void createRecruit(RecruitCreateRequestDto requestDto) {
         // 기존 프로젝트로 구인글이 생성되어 있는지 확인
         Long projectId = requestDto.getProjectId();
-        if(recruitRepository.existsByProjectId(projectId)) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
+        if(recruitRepository.existsByProject(project)) {
             throw new IllegalArgumentException("이미 해당 프로젝트로 구인글이 생성되어 있습니다. projectId: " + projectId);
         }
 
-        recruitRepository.save(requestDto.toEntity());
+        recruitRepository.save(requestDto.toEntity(project));
     }
 
     @Transactional(readOnly = true)
@@ -72,9 +76,10 @@ public class RecruitService {
         Long id = requestDto.getId();
         Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 구인글이 존재하지 않습니다. id: " + id));
-
+        Project project = projectRepository.findById(requestDto.getProjectId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
         // 구인글 업데이트 하기
-        recruit.update(requestDto.getProjectId(), requestDto.getDescription(),
+        recruit.update(project, requestDto.getDescription(),
                 requestDto.getAttachments(), requestDto.getOpenings(), requestDto.getApplicants());
 
         recruitRepository.save(recruit);
